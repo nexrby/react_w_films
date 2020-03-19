@@ -1,7 +1,14 @@
 import React from 'react';
 
-const MovieItem = (props) => {
-  const {movie, removeFilm, addMovieToWatch} = props
+class MovieItem extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      willWatch: false
+    };
+  }
+  render() {
+    const {movie, removeFilm, addMovieToWatch, removeFromWillWatch} = this.props
     return (
       <div>            
         <div className="card">
@@ -16,13 +23,21 @@ const MovieItem = (props) => {
             <div className="d-flex justify-content-between align-items-center">
               <p className="mb-0">Rating: {movie.vote_average}</p>
               <button type="button" 
-                      className="btn btn-secondary"
-                      onClick={addMovieToWatch.bind(null, movie)}
+                      className={this.state.willWatch ? 'btn btn-success' : 'btn btn-secondary'}
+                      onClick={() => {
+                        this.setState({
+                          willWatch: !this.state.willWatch
+                        });
+                        {this.state.willWatch ? removeFromWillWatch(movie) : addMovieToWatch(movie)};
+                      }}
               >
-                Will Watch
-              </button>
+                {this.state.willWatch ? "Don't " : "will "} Watch
+              </button>              
               <button className="btn btn-danger"
-                      onClick={removeFilm.bind(null, movie)}
+                      onClick={() => {
+                        removeFilm(movie);
+                        removeFromWillWatch(movie)
+                      }}
               >
                 Remove film
               </button>
@@ -31,6 +46,33 @@ const MovieItem = (props) => {
         </div>
       </div>
     );
-};
+  }
+}
 
 export default MovieItem;
+
+
+// {this.state.willWatch ? (
+//   <button type="button" 
+//   className="btn btn-success"
+//   onClick={() => {
+//     this.setState({
+//       willWatch: false
+//     });
+//     removeFromWillWatch(movie);
+//   }}
+//   >
+//     Don't Watch
+//   </button>) : (
+//   <button type="button" 
+//   className="btn btn-secondary"
+//   onClick={() => {
+//     this.setState({
+//       willWatch: true
+//     });
+//     addMovieToWatch(movie);
+//   }}
+//   >
+//     Will Watch
+//   </button>
+// )}
