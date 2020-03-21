@@ -28,7 +28,7 @@ class MovieItem extends React.Component {
                         this.setState({
                           willWatch: !this.state.willWatch
                         });
-                        {this.state.willWatch ? removeFromWillWatch(movie) : addMovieToWatch(movie)};
+                        this.state.willWatch ? removeFromWillWatch(movie) : addMovieToWatch(movie);
                       }}
               >
                 {this.state.willWatch ? "Don't " : "will "} Watch
